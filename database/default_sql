@@ -1,0 +1,63 @@
+CREATE DATABASE prooya_test OWNER = "prooya";
+
+SET statement_timeout = 0;
+SET client_encoding = "UTF8";
+SET check_function_bodies = false;
+SET search_path = public, pg_catalog;
+
+CREATE TABLE IF NOT EXISTS users(
+    id SERIAL PRIMARY KEY,
+    pid VARCHAR(50) NOT NULL DEFAULT '',
+    team VARCHAR(3) NOT NULL DEFAULT '',
+    regdate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fcm_token TEXT NOT NULL DEFAULT ''
+);
+
+CREATE TABLE IF NOT EXISTS teams(
+    id SERIAL PRIMARY KEY,
+    pid INTEGER NOT NULL DEFAULT 0,
+    year INTEGER NOT NULL DEFAULT 0,
+    kat VARCHAR(10) NOT NULL DEFAULT '0-0-0',
+    dsb VARCHAR(10) NOT NULL DEFAULT '0-0-0',
+    ltg VARCHAR(10) NOT NULL DEFAULT '0-0-0',
+    ncd VARCHAR(10) NOT NULL DEFAULT '0-0-0',
+    skw VARCHAR(10) NOT NULL DEFAULT '0-0-0',
+    nxh VARCHAR(10) NOT NULL DEFAULT '0-0-0',
+    lgt VARCHAR(10) NOT NULL DEFAULT '0-0-0',
+    hhe VARCHAR(10) NOT NULL DEFAULT '0-0-0',
+    ssl VARCHAR(10) NOT NULL DEFAULT '0-0-0',
+    ktw VARCHAR(10) NOT NULL DEFAULT '0-0-0',
+    regdate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS records(
+    id SERIAL PRIMARY KEY,
+    pid INTEGER NOT NULL DEFAULT 0,
+    year INTEGER NOT NULL DEFAULT 0,
+    versus VARCHAR(3) NOT NULL DEFAULT '',
+    result VARCHAR(3) NOT NULL DEFAULT '',
+    getscore INTEGER NOT NULL DEFAULT 0,
+    lostscore INTEGER NOT NULL DEFAULT 0,
+    regdate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS scores(
+    id SERIAL PRIMARY KEY,
+    playdate INTEGER NOT NULL DEFAULT 0,
+    awayteam VARCHAR(5) NOT NULL DEFAULT 0,
+    awayscore INTEGER NOT NULL DEFAULT 0,
+    hometeam VARCHAR(5) NOT NULL DEFAULT '',
+    homescore INTEGER NOT NULL DEFAULT 0,
+    stadium VARCHAR(5) NOT NULL DEFAULT '',
+    starttime INTEGER NOT NULL DEFAULT 0,
+    regdate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX u_pid ON users(pid);
+CREATE INDEX t_pid ON teams(pid);
+CREATE INDEX t_year ON teams(year);
+CREATE INDEX r_pid ON records(pid);
+CREATE INDEX r_year ON records(year);
+CREATE INDEX s_date ON scores(playdate);
+CREATE INDEX s_away ON scores(awayteam);
+CREATE INDEX s_home ON scores(hometeam);

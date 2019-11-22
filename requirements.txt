@@ -1,0 +1,10 @@
+Click==7.0
+configparser==3.7.1
+Flask==1.0.2
+gevent==1.4.0
+greenlet==0.4.15
+itsdangerous==1.1.0
+Jinja2==2.10
+MarkupSafe==1.1.0
+psycopg2-binary==2.7.7
+Werkzeug==0.14.1
