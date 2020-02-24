@@ -1,2 +1,11 @@
 # prooya_meerkat
-Superhamster Prooya (Server) MainVersion : 52 | Codename : meerkat
+
+. Project : APX5 SuperHamster
+
+. MainVersion : 52
+
+. CodeName : Meerkat
+
+. Product : Prooya - KBO Live Game Analyzer
+
+. Usage : For Server (Python)
