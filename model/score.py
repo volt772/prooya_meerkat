@@ -57,8 +57,16 @@ class ScoreModel:
         scores = db.fetch_all(query)
 
         if len(scores) > 0:
-            result = scores[0]
+            result = scores
         else:
-            result = {}
+            result = [{
+                "awayscore": 0,
+                "awayteam": team,
+                "homescore": 0,
+                "hometeam": team,
+                "id": 0,
+                "playdate": regdate,
+                "stadium": "",
+                "starttime": 0 }]
 
         return result
