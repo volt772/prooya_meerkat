@@ -70,8 +70,8 @@ class TeamsHandler:
         if records:
             for idx, record in enumerate(records):
                 record_single_data = {
-                    "ptGet": str(record["getscore"]),
-                    "ptLost": str(record["lostscore"]),
+                    "ptGet": record["getscore"],
+                    "ptLost": record["lostscore"],
                     "playDate": utils.convert_timedata({
                         "time": record["regdate"],
                         "type": 2}),
@@ -81,8 +81,7 @@ class TeamsHandler:
 
                 record_list.append(record_single_data)
 
-        res = {"plays": record_list}
-        return jsonify({"res": res})
+        return jsonify({"plays": record_list})
 
     def get_winning_rate(self, data):
         """ 팀별 승률 계산"""
