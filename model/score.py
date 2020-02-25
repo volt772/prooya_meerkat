@@ -52,6 +52,7 @@ class ScoreModel:
             FROM %s
             WHERE playdate = '%s'
             AND (awayteam = '%s' or hometeam = '%s')
+            ORDER BY starttime
             """ % (SCORES, regdate, team, team)
 
         scores = db.fetch_all(query)
