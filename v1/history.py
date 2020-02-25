@@ -30,18 +30,16 @@ class HistoryHandler:
 
         for idx, play in enumerate(history):
             histories.append({
-                "playId": str(play["id"]),
-                "ptGet": str(play["getscore"]),
-                "ptLost": str(play["lostscore"]),
+                "playId": play["id"],
+                "ptGet": play["getscore"],
+                "ptLost": play["lostscore"],
                 "playDate": utils.convert_timedata({"time": play["regdate"], "type": 3}),
                 "playResult": play["result"],
                 "playVs": play["versus"],
-                "playSeason": str(play["year"]),
+                "playSeason": play["year"],
             })
 
-        res = {"histories": histories}
-
-        return jsonify({"res": res})
+        return jsonify({"histories": histories})
 
     def del_history(self, data):
         """ 기록삭제(선택)"""
