@@ -36,6 +36,7 @@ class HistoryHandler:
                 "playDate": utils.convert_timedata({"time": play["regdate"], "type": 3}),
                 "playResult": play["result"],
                 "playVs": play["versus"],
+                "playMyTeam": play["myteam"],
                 "playSeason": play["year"],
             })
 

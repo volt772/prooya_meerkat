@@ -22,6 +22,7 @@ class HistoryModel:
             SELECT r.id,
                    r.year,
                    r.versus,
+                   r.myteam,
                    r.result,
                    r.getscore,
                    r.lostscore,
@@ -83,11 +84,11 @@ class HistoryModel:
 
         record_id = db.fetch_one("""
             INSERT INTO %s
-            (pid, year, versus, result, getscore, lostscore, regdate)
-            VALUES (%s, %s, '%s', '%s', %s, %s, '%s') RETURNING id"""
+            (pid, year, versus, result, getscore, lostscore, regdate, myteam)
+            VALUES (%s, %s, '%s', '%s', %s, %s, '%s', '%s') RETURNING id"""
                                  % (RECORDS, data["pid"], data["year"],
                                     data["versus"], data["result"],
                                     data["getscore"], data["lostscore"],
-                                    data["regdate"]))
+                                    data["regdate"], data["myteam"]))
 
         return record_id["id"]
