@@ -64,15 +64,16 @@ class StaticsHanlder:
                 is_season_play = True if records[idx]["year"] == season_year else False
                 if idx < 5 and is_season_play:
                     recents.append({
-                        "playId" : str(records[idx]["id"]),
-                        "ptGet" : str(records[idx]["getscore"]),
-                        "ptLost" : str(records[idx]["lostscore"]),
+                        "playId" : records[idx]["id"],
+                        "ptGet" : records[idx]["getscore"],
+                        "ptLost" : records[idx]["lostscore"],
                         "playDate" : utils.convert_timedata({
                             "time": records[idx]["regdate"],
                             "type": 3}),
                         "playResult" : records[idx]["result"],
                         "playVs" : records[idx]["versus"],
-                        "playSeason" : str(records[idx]["year"]),
+                        "playMyTeam" : records[idx]["myteam"],
+                        "playSeason" : records[idx]["year"],
                     })
 
         # 전체 경기수

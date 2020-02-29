@@ -21,6 +21,7 @@ class StaticsModel:
             SELECT r.id,
                    r.year,
                    r.versus,
+                   r.myteam,
                    r.result,
                    r.getscore,
                    r.lostscore,
