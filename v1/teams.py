@@ -31,12 +31,12 @@ class TeamsHandler:
         team_list = []
         for team, analystic in enumerate(reorderd_data):
             team_single_data = {
-                "year": str(year),
+                "year": year,
                 "team": analystic["team"],
-                "win": analystic["win"],
-                "lose": analystic["lose"],
-                "draw": analystic["draw"],
-                "rate": self.get_winning_rate(analystic)
+                "win": int(analystic["win"]),
+                "lose": int(analystic["lose"]),
+                "draw": int(analystic["draw"]),
+                "rate": int(self.get_winning_rate(analystic))
             }
 
             pt_win += int(analystic["win"])
