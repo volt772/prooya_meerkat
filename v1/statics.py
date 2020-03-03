@@ -16,6 +16,9 @@ class StaticsHanlder:
         if not data:
             return jsonify({"res": False})
 
+        # 내팀 코드
+        team = ""
+
         # 경기수
         play_count_all = 0      #: 통산
         play_count_season = 0   #: 시즌
@@ -44,6 +47,8 @@ class StaticsHanlder:
 
         if records:
             for idx, record in enumerate(records):
+                # 내팀코드 
+                team = record["myteam"]
                 # 경기결과 카운트
                 if record["result"] is "w":
                     pt_win_all += 1
@@ -88,6 +93,7 @@ class StaticsHanlder:
         winning_rate_all = pt_win_all / play_count_all
 
         res = {
+            "team" : team,
             "allStatics" : {
                 "win" : pt_win_all,
                 "lose" : pt_lose_all,

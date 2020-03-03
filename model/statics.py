@@ -25,7 +25,8 @@ class StaticsModel:
                    r.result,
                    r.getscore,
                    r.lostscore,
-                   r.regdate
+                   r.regdate,
+                   u.team
             FROM %s AS u
             JOIN %s AS r
             ON u.id = r.pid
