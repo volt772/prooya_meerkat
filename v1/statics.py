@@ -48,7 +48,7 @@ class StaticsHanlder:
         if records:
             for idx, record in enumerate(records):
                 # 내팀코드 
-                team = record["myteam"]
+                team = record["team"]
                 # 경기결과 카운트
                 if record["result"] is "w":
                     pt_win_all += 1
