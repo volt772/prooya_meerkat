@@ -25,9 +25,9 @@ class AdminHandler:
         if not data:
             return False
 
-        dbid = data["dbid"]
-        awayscore = data["awayscore"]
-        homescore = data["homescore"]
+        dbid = data["id"]
+        awayscore = data["awayScore"]
+        homescore = data["homeScore"]
 
         score = MADMIN.put_score({
             "dbid": dbid,
