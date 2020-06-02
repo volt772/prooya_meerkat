@@ -39,7 +39,7 @@ class ApplicationException(Exception):
 def ping():
     """ 서버 사용가능여부 검사"""
     ping = utils.check_ping()
-    return jsonify({"data": ping})
+    return jsonify({"data": {"status": ping}})
 
 
 def users(data, func):
