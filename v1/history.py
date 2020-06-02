@@ -16,7 +16,7 @@ class HistoryHandler:
     def get_history(self, data):
         """ 전체 데이터"""
         if not data:
-            return jsonify({"data": False})
+            return jsonify({"data": {"games": []}})
 
         email = data.get("email")
         year = data.get("year")
@@ -26,7 +26,7 @@ class HistoryHandler:
         history = him.get_history({"email": email, "year": year})
 
         if not history:
-            return jsonify({"data": {}})
+            return jsonify({"data": {"games": []}})
 
         for idx, play in enumerate(history):
             histories.append({
@@ -40,7 +40,7 @@ class HistoryHandler:
                 "playSeason": play["year"],
             })
 
-        return jsonify({"data": histories})
+        return jsonify({"data": {"games" : histories}})
 
     def del_history(self, data):
         """ 기록삭제(선택)"""
@@ -98,7 +98,7 @@ class HistoryHandler:
             return jsonify({"data": False})
 
         res = self.put_history(data, "plus")
-        return jsonify({"data": res})
+        return jsonify({"data": {"result" : res}})
 
     def put_team(self, data):
         """ 팀 정보 수정"""

@@ -59,7 +59,7 @@ class TeamsHandler:
     def get_details(self, data):
         """ 팀별 상세정보"""
         if not data:
-            return jsonify({"data": False})
+            return jsonify({"data": {"games" : []}})
 
         records = tem.get_details({
             "email": data["email"],
@@ -81,7 +81,7 @@ class TeamsHandler:
 
                 record_list.append(record_single_data)
 
-        return jsonify({"data": record_list})
+        return jsonify({"data": {"games" : record_list}})
 
     def get_winning_rate(self, data):
         """ 팀별 승률 계산"""
