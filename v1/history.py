@@ -45,7 +45,7 @@ class HistoryHandler:
     def del_history(self, data):
         """ 기록삭제(선택)"""
         if not data:
-            return jsonify({"data": False})
+            return jsonify({"data": {"count" : res * 1}})
 
         res = him.del_history({
             "rid": data["rid"],
@@ -54,7 +54,7 @@ class HistoryHandler:
 
         self.update_history(data, "minus")
 
-        return jsonify({"data": res})
+        return jsonify({"data": {"count" : res * 1}})
 
     def update_history(self, data, kind):
         """ 기록수정(선택)"""
@@ -95,7 +95,7 @@ class HistoryHandler:
     def post_history(self, data):
         """ 기록추가"""
         if not data:
-            return jsonify({"data": False})
+            return jsonify({"data": {"result" : 0}})
 
         res = self.put_history(data, "plus")
         return jsonify({"data": {"result" : res}})

@@ -47,7 +47,7 @@ class UsersHandler:
 
             record_del = self.HRECORD.del_record_all(user["id"])
 
-        return jsonify({"data": {"count" : res}})
+        return jsonify({"data": {"count" : res * 1}})
 
     def post_user(self, data):
         """ 사용자 신규등록 및 수정"""

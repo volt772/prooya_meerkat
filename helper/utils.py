@@ -136,14 +136,19 @@ def reorder_teamdata(data):
             versus[2] = str(int(versus[2]) + 1)
     elif mode == "minus":
         if p_data["result"] == "w":
-            versus[0] = str(int(versus[0]) - 1)
+            versus[0] = str(check_zero_score(int(versus[0]) - 1))
         elif p_data["result"] == "l":
-            versus[1] = str(int(versus[1]) - 1)
+            versus[1] = str(check_zero_score(int(versus[1]) - 1))
         elif p_data["result"] == "d":
-            versus[2] = str(int(versus[2]) - 1)
+            versus[2] = str(check_zero_score(int(versus[2]) - 1))
 
     new_record = "-".join(versus)
     return new_record
+
+def check_zero_score(score):
+    """ 음수 점수 예외처리 """
+    return 0 if score < 0 else score
+
 
 if __name__ == "__main__":
     get_host()
