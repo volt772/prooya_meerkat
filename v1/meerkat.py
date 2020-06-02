@@ -39,7 +39,7 @@ class ApplicationException(Exception):
 def ping():
     """ 서버 사용가능여부 검사"""
     ping = utils.check_ping()
-    return jsonify({"res": ping})
+    return jsonify({"data": ping})
 
 
 def users(data, func):
@@ -59,7 +59,7 @@ def score(data, func):
         if func == "get":
             return _sh.get_score(data)
         else:
-            return jsonify({"res": False})
+            return jsonify({"data": False})
     except Exception as e:
         raise ApplicationException(str(e))
 

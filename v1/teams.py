@@ -14,7 +14,7 @@ class TeamsHandler:
     def get_teams(self, data):
         """ 팀별 기록 데이터"""
         if not data:
-            return jsonify({"res": False})
+            return jsonify({"data": False})
 
         # 승무패
         pt_win = 0   #: 승
@@ -54,12 +54,12 @@ class TeamsHandler:
                 "year": year}
         }
 
-        return jsonify({"res": res})
+        return jsonify({"data": res})
 
     def get_details(self, data):
         """ 팀별 상세정보"""
         if not data:
-            return jsonify({"res": False})
+            return jsonify({"data": False})
 
         records = tem.get_details({
             "email": data["email"],
@@ -81,7 +81,7 @@ class TeamsHandler:
 
                 record_list.append(record_single_data)
 
-        return jsonify({"plays": record_list})
+        return jsonify({"data": record_list})
 
     def get_winning_rate(self, data):
         """ 팀별 승률 계산"""
@@ -99,8 +99,8 @@ class TeamsHandler:
     def put_team(self, data):
         """ 팀 정보 수정"""
         if not data:
-            return jsonify({"res": False})
+            return jsonify({"data": False})
 
         team = tem.put(data)
 
-        return jsonify({"res": team})
+        return jsonify({"data": team})

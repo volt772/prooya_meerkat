@@ -14,7 +14,7 @@ class StaticsHanlder:
     def get_statics(self, data):
         """ 기록정보(Dashboard용 통합 데이터)"""
         if not data:
-            return jsonify({"res": False})
+            return jsonify({"data": False})
 
         # 내팀 코드
         team = ""
@@ -111,4 +111,4 @@ class StaticsHanlder:
             "recentPlays" : recents
         }
 
-        return jsonify({"res": res})
+        return jsonify({"data": res})

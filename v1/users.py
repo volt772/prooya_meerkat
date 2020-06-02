@@ -17,7 +17,7 @@ class UsersHandler:
     def get_user(self, data):
         """ 사용자 정보"""
         if not data:
-            return jsonify({"res": False})
+            return jsonify({"data": False})
 
         user_info = usm.get(pid=data["pid"])
 
@@ -29,12 +29,12 @@ class UsersHandler:
                 "where": user_info["id"]})
 
         user_res = {"id" : user_info["id"], "team" : user_info["team"]}
-        return jsonify({"res": user_res})
+        return jsonify({"data": user_res})
 
     def del_user(self, data):
         """ 사용자 정보 삭제"""
         if not data:
-            return jsonify({"res": False})
+            return jsonify({"data": False})
 
         res = False
         user = usm.get(pid=data["pid"])
@@ -47,12 +47,12 @@ class UsersHandler:
 
             record_del = self.HRECORD.del_record_all(user["id"])
 
-        return jsonify({"res": res})
+        return jsonify({"data": res})
 
     def post_user(self, data):
         """ 사용자 신규등록 및 수정"""
         if not data:
-            return jsonify({"res": False})
+            return jsonify({"data": False})
 
         res = {}
         user_id = usm.get(pid=data["pid"])
@@ -91,4 +91,4 @@ class UsersHandler:
             "year": year,
             "type": user_type})
 
-        return jsonify({"res": res})
+        return jsonify({"data": res})

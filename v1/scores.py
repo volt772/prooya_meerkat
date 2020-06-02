@@ -21,4 +21,4 @@ class ScoresHandler:
             "regdate": data["regdate"],
             "team": data["team"]})
 
-        return jsonify({"res": scores})
+        return jsonify({"data": scores})
