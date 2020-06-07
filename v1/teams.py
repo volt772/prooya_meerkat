@@ -54,7 +54,7 @@ class TeamsHandler:
                 "year": year}
         }
 
-        return jsonify({"data": {"games" : res}})
+        return jsonify({"data": res})
 
     def get_details(self, data):
         """ 팀별 상세정보"""
