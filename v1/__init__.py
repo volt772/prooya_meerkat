@@ -9,6 +9,7 @@ from model.team import TeamModel
 from model.history import HistoryModel
 from model.score import ScoreModel
 from model.user import UserModel
+from model.admin import AdminModel
 
 # Model Variable
 stm = StaticsModel()
@@ -16,3 +17,4 @@ tem = TeamModel()
 him = HistoryModel()
 scm = ScoreModel()
 usm = UserModel()
+adm = AdminModel()

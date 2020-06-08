@@ -10,6 +10,7 @@ from v1.teams import TeamsHandler
 from v1.history import HistoryHandler
 from v1.scores import ScoresHandler
 from v1.users import UsersHandler
+from v1.admin import AdminHandler
 
 import datetime
 
@@ -17,6 +18,7 @@ import datetime
 """ Prooya Main Router """
 
 _us = UsersHandler()
+_ad = AdminHandler()
 _sh = ScoresHandler()
 _st = StaticsHanlder()
 _te = TeamsHandler()
@@ -40,6 +42,21 @@ def ping():
     """ 서버 사용가능여부 검사"""
     ping = utils.check_ping()
     return jsonify({"data": {"status": ping * 1}})
+
+    
+def admin(data, func):
+    """ 관리자정보"""
+    try:
+        if func == "getscore":
+            return _ad.get_score(data)
+        elif func == "putscore":
+            return _ad.put_score(data)
+        elif func == "getusers":
+            return _ad.get_users(data)
+        elif func == "getrecords":
+            return _ad.get_user_records(data)
+    except Exception as e:
+        raise ApplicationException(str(e))
 
 
 def users(data, func):
