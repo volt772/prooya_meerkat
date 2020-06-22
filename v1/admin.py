@@ -21,6 +21,15 @@ class AdminHandler:
 
         return jsonify({"data": {"games" : scores}})
 
+    def get_day_games(self, data): 
+        """ 경기리스트"""
+        if not data:
+            return jsonify({"data": {"games" : []}})
+
+        scores = adm.get_day_games(data["playdate"])
+
+        return jsonify({"data": {"games" : scores}})
+
     def put_score(self, data):
         """ 경기스코어 갱신"""
         if not data:
@@ -36,6 +45,15 @@ class AdminHandler:
             "homescore": homescore, })
 
         return jsonify({"data": {"status" : score["id"]}})
+
+    def post_new_game(self, data):
+        """ 경기등록"""
+        if not data:
+            return jsonify({"data": {"status" : 0}})
+
+        game = adm.post_new_game(data)
+
+        return jsonify({"data": {"status" : game["id"]}})
 
     def get_users(self, data):
         """ 사용자전체리스트"""

@@ -17,7 +17,31 @@ class AdminModel:
             return False
 
         query = """
-            SELECT id, hometeam, homescore, awayteam, awayscore, stadium, starttime
+            SELECT id, 
+                   hometeam, 
+                   homescore, 
+                   awayteam, 
+                   awayscore, 
+                   stadium, 
+                   starttime
+            FROM %s
+            WHERE playdate = '%s'
+            """ % (SCORES, playdate)
+
+        scores = db.fetch_all(query)
+
+        return scores
+
+    def get_day_games(self, playdate):
+        """ 경기 리스트"""
+        if not playdate:
+            return False
+
+        query = """
+            SELECT hometeam, 
+                   homescore, 
+                   awayteam, 
+                   awayscore
             FROM %s
             WHERE playdate = '%s'
             """ % (SCORES, playdate)
@@ -42,6 +66,34 @@ class AdminModel:
 
         return res
 
+    def post_new_game(self, data):
+        """ 경기등록"""
+        if not data:
+            return False
+
+        play_date = data.get("playdate", "")
+        away_team = data.get("awayteam", "")
+        home_team = data.get("hometeam", "")
+        stadium = data.get("stadium", "")
+        start_time = data.get("starttime", "")
+
+        if play_date == "" or \
+           away_team == "" or \
+           home_team == "" or \
+           stadium == "" or \
+           start_time == "":
+            return False
+
+        query = """
+            INSERT INTO %s
+            (playdate, awayteam, awayscore, hometeam, homescore, stadium, starttime)
+            VALUES ('%s', '%s', 998, '%s', 998, '%s', '%s') RETURNING id """ \
+            % (SCORES, play_date, away_team, home_team, stadium, start_time)
+
+        res = db.fetch_one(query)
+
+        return res
+
     def get_users(self, data):
         """ 사용자전체리스트"""
         if not data:
@@ -54,7 +106,11 @@ class AdminModel:
             team = ""
 
         query = """
-            SELECT id, pid, regdate, team, fcm_token
+            SELECT id, 
+                   pid, 
+                   regdate, 
+                   team, 
+                   fcm_token
             FROM {0}
             WHERE pid LIKE '%{1}%'
             AND team LIKE '%{2}%'
@@ -71,7 +127,11 @@ class AdminModel:
             return False
 
         query = """
-            SELECT pid, year, versus, result, regdate
+            SELECT pid, 
+                   year, 
+                   versus, 
+                   result, 
+                   regdate
             FROM %s
             WHERE pid = '%s'
             ORDER BY regdate DESC

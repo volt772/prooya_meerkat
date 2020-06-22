@@ -49,8 +49,12 @@ def admin(data, func):
     try:
         if func == "getscore":
             return _ad.get_score(data)
+        elif func == "daygames":
+            return _ad.get_day_games(data)
         elif func == "putscore":
             return _ad.put_score(data)
+        elif func == "postgame":
+            return _ad.post_new_game(data)
         elif func == "getusers":
             return _ad.get_users(data)
         elif func == "getrecords":
