@@ -22,10 +22,8 @@ class HistoryModel:
             SELECT r.id,
                    r.year,
                    r.versus,
-                   r.myteam,
                    r.result,
-                   r.getscore,
-                   r.lostscore,
+                   r.myteam,
                    r.regdate
             FROM %s AS u
             JOIN %s AS r

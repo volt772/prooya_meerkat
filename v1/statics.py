@@ -47,7 +47,7 @@ class StaticsHanlder:
 
         if records:
             for idx, record in enumerate(records):
-                # 내팀코드 
+                # 내팀코드
                 team = record["team"]
                 # 경기결과 카운트
                 if record["result"] is "w":
@@ -68,18 +68,23 @@ class StaticsHanlder:
 
                 is_season_play = True if records[idx]["year"] == season_year else False
                 if idx < 5 and is_season_play:
-                    recents.append({
-                        "playId" : records[idx]["id"],
-                        "ptGet" : records[idx]["getscore"],
-                        "ptLost" : records[idx]["lostscore"],
-                        "playDate" : utils.convert_timedata({
-                            "time": records[idx]["regdate"],
-                            "type": 3}),
-                        "playResult" : records[idx]["result"],
-                        "playVs" : records[idx]["versus"],
-                        "playMyTeam" : records[idx]["myteam"],
-                        "playSeason" : records[idx]["year"],
+                    score = scm.get({
+                        "playdate": utils.convert_timedata({"time": records[idx]["regdate"], "type": 3}),
+                        "favteam": records[idx]["myteam"]
                     })
+
+                    if score:
+                        recents.append({
+                            "playId": records[idx]["id"],
+                            "playResult": records[idx]["result"],
+                            "playVs": records[idx]["versus"],
+                            "playSeason": records[idx]["year"],
+                            "playDate": score["playdate"],
+                            "awayTeam": score["awayteam"],
+                            "awayScore": score["awayscore"],
+                            "homeTeam": score["hometeam"],
+                            "homeScore": score["homescore"],
+                        })
 
         # 전체 경기수
         play_count_all = len(records)

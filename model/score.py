@@ -66,7 +66,7 @@ class ScoreModel:
                 "homescore": 0,
                 "hometeam": team,
                 "id": 0,
-                "playdate": regdate,
+                "playdate": int(regdate),
                 "stadium": "",
                 "starttime": 0 }]
 
