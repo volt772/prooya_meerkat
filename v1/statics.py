@@ -84,6 +84,7 @@ class StaticsHanlder:
                             "awayScore": score["awayscore"],
                             "homeTeam": score["hometeam"],
                             "homeScore": score["homescore"],
+                            "stadium": score["stadium"]
                         })
 
         # 전체 경기수
