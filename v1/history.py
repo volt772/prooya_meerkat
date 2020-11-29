@@ -45,6 +45,7 @@ class HistoryHandler:
                     "awayScore": score["awayscore"],
                     "homeTeam": score["hometeam"],
                     "homeScore": score["homescore"],
+                    "stadium": score["stadium"]
                 })
 
         return jsonify({"data": {"games" : histories}})
