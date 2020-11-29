@@ -69,14 +69,20 @@ class TeamsHandler:
         record_list = []
         if records:
             for idx, record in enumerate(records):
+                score = scm.get({
+                    "playdate": utils.convert_timedata({"time": record["regdate"], "type": 3}),
+                    "favteam": record["team"]
+                })
+
                 record_single_data = {
-                    "ptGet": record["getscore"],
-                    "ptLost": record["lostscore"],
-                    "playDate": utils.convert_timedata({
-                        "time": record["regdate"],
-                        "type": 2}),
                     "playResult": record["result"],
-                    "playVs": record["versus"]
+                    "playVs": record["versus"],
+                    "playDate": score["playdate"],
+                    "awayTeam": score["awayteam"],
+                    "awayScore": score["awayscore"],
+                    "homeTeam": score["hometeam"],
+                    "homeScore": score["homescore"],
+                    "stadium": score["stadium"]
                 }
 
                 record_list.append(record_single_data)
