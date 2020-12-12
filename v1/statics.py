@@ -66,27 +66,6 @@ class StaticsHanlder:
                         pt_draw_season += 1
                         play_count_season += 1
 
-                is_season_play = True if records[idx]["year"] == season_year else False
-                if idx < 5 and is_season_play:
-                    score = scm.get({
-                        "playdate": utils.convert_timedata({"time": records[idx]["regdate"], "type": 3}),
-                        "favteam": records[idx]["myteam"]
-                    })
-
-                    if score:
-                        recents.append({
-                            "playId": records[idx]["id"],
-                            "playResult": records[idx]["result"],
-                            "playVs": records[idx]["versus"],
-                            "playSeason": records[idx]["year"],
-                            "playDate": score["playdate"],
-                            "awayTeam": score["awayteam"],
-                            "awayScore": score["awayscore"],
-                            "homeTeam": score["hometeam"],
-                            "homeScore": score["homescore"],
-                            "stadium": score["stadium"]
-                        })
-
         # 전체 경기수
         play_count_all = len(records)
 
@@ -97,6 +76,9 @@ class StaticsHanlder:
 
         # 승률
         winning_rate_all = pt_win_all / play_count_all
+
+        # 오늘경기리스트
+        today_game = scm.get_score_with_time({"regdate" : utils.get_current_date(), "team": team })
 
         res = {
             "team" : team,
@@ -114,7 +96,7 @@ class StaticsHanlder:
                 "count" : play_count_season,
                 "rate" : round(winning_rate_season * 100)
             },
-            "recentPlays" : recents
+            "todayGame" : today_game
         }
 
         return jsonify({"data": res})
