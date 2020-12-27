@@ -16,8 +16,8 @@ class StaticsHanlder:
         if not data:
             return jsonify({"data": False})
 
-        # 내팀 코드
-        team = ""
+        # 사용자정보
+        user = {}
 
         # 경기수
         play_count_all = 0      #: 통산
@@ -46,9 +46,12 @@ class StaticsHanlder:
         records = stm.get_records({"email": email})
 
         if records:
+            user = {
+                "user_id" : records[0]["id"],
+                "team" : records[0]["team"]
+            }
+
             for idx, record in enumerate(records):
-                # 내팀코드
-                team = record["team"]
                 # 경기결과 카운트
                 if record["result"] is "w":
                     pt_win_all += 1
@@ -78,10 +81,33 @@ class StaticsHanlder:
         winning_rate_all = pt_win_all / play_count_all
 
         # 오늘경기리스트
-        today_game = scm.get_score_with_time({"regdate" : utils.get_current_date(), "team": team })
+        today_game = scm.get_score_with_time({
+            "regdate" : utils.get_current_date(),
+            "team": user["team"]
+        })
+
+        # 오늘경기 등록여부 검사
+        for _score in today_game:
+            getScore = _score["homescore"]
+            lostScore = _score["awayscore"]
+
+            if user["team"] == _score["awayteam"]:
+                getScore = _score["awayscore"]
+                lostScore = _score["homescore"]
+
+            play = rcm.get_one({
+                "pid": user["user_id"],
+                "team" : user["team"],
+                "playdate": _score["playdate"],
+                "get_score": getScore,
+                "lost_score": lostScore
+            })
+
+            registed_Id = play["id"] if play else 0
+            _score["registedId"] = registed_Id
 
         res = {
-            "team" : team,
+            "user" : user,
             "allStatics" : {
                 "win" : pt_win_all,
                 "lose" : pt_lose_all,

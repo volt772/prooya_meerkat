@@ -24,7 +24,9 @@ class HistoryModel:
                    r.versus,
                    r.result,
                    r.myteam,
-                   r.regdate
+                   r.regdate,
+                   r.getscore,
+                   r.lostscore
             FROM %s AS u
             JOIN %s AS r
             ON u.id = r.pid

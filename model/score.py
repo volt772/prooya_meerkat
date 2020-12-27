@@ -32,6 +32,27 @@ class ScoreModel:
 
         return score
 
+    def getAll(self, data):
+        """ 점수 가져오기"""
+        if not data:
+            return False
+
+        query = """
+            SELECT playdate,
+                   hometeam,
+                   homescore,
+                   awayteam,
+                   awayscore,
+                   stadium
+            FROM %s
+            WHERE playdate = '%s'
+            AND (hometeam = '%s' OR awayteam = '%s')
+            """ % (SCORES, data["playdate"], data["favteam"], data["favteam"])
+
+        score = db.fetch_all(query)
+
+        return score
+
     def get_score_with_time(self, data):
         """ 기록 가져오기(경기정보)"""
         if not data:

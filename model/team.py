@@ -153,7 +153,7 @@ class TeamModel:
             versus, year)
 
         query = """
-            SELECT r.getscore, r.lostscore, r.regdate, r.result, r.versus, u.team
+            SELECT r.getscore, r.lostscore, r.regdate, r.result, r.versus, r.myteam, u.team
             FROM %s AS u
             JOIN %s AS r
             ON r.pid = u.id

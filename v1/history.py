@@ -29,23 +29,25 @@ class HistoryHandler:
             return jsonify({"data": {"games": []}})
 
         for idx, play in enumerate(history):
-            score = scm.get({
+            score = scm.getAll({
                 "playdate": utils.convert_timedata({"time": play["regdate"], "type": 3}),
                 "favteam": play["myteam"]
             })
 
-            if score:
+            score_data = datum.get_score_data(score, play)
+
+            if score_data:
                 histories.append({
                     "playId": play["id"],
                     "playResult": play["result"],
                     "playVs": play["versus"],
                     "playSeason": play["year"],
-                    "playDate": score["playdate"],
-                    "awayTeam": score["awayteam"],
-                    "awayScore": score["awayscore"],
-                    "homeTeam": score["hometeam"],
-                    "homeScore": score["homescore"],
-                    "stadium": score["stadium"]
+                    "playDate": score_data["playdate"],
+                    "awayTeam": score_data["awayteam"],
+                    "awayScore": score_data["awayscore"],
+                    "homeTeam": score_data["hometeam"],
+                    "homeScore": score_data["homescore"],
+                    "stadium": score_data["stadium"]
                 })
 
         return jsonify({"data": {"games" : histories}})

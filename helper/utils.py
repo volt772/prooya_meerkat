@@ -23,7 +23,8 @@ def get_current_date():
     """ 현재일 계산 """
     now = datetime.datetime.now()
     today = now.strftime('%Y%m%d')
-    return today
+    return "20200904"
+    # return today
 
 
 def get_year():

@@ -29,6 +29,32 @@ class RecordModel:
 
         return record
 
+    def get_one(self, data):
+        """ 기록 가져오기(단일)"""
+        if not data:
+            return False
+
+        pid = data.get("pid")
+        team = data.get("team")
+
+        regdate = data["playdate"]
+        get_score = data["get_score"]
+        lost_score = data["lost_score"]
+
+        query = """
+            SELECT *
+            FROM %s
+            WHERE regdate = '%s'
+            AND pid = '%s'
+            AND myteam = '%s'
+            AND getscore = %s
+            AND lostscore = %s
+            """ % (RECORDS, regdate, pid, team, get_score, lost_score)
+
+        record = db.fetch_one(query)
+
+        return record
+
     def get_all(self, data):
         """ 기록 가져오기(전체)"""
         if not data:
