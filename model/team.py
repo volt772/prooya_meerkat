@@ -43,6 +43,35 @@ class TeamModel:
 
         return team
 
+    def get_all(self, user_id):
+        """ 팀기록 가져오기(사용자 기록/전체)"""
+        if not user_id:
+            return False
+
+        query = """
+            SELECT kat,
+                   dsb,
+                   ltg,
+                   ncd,
+                   skw,
+                   nxh,
+                   lgt,
+                   hhe,
+                   ssl,
+                   ktw
+            FROM %s
+            WHERE pid = '%s'
+            """ % (TEAMS, user_id,)
+
+        team = db.fetch_all(query)
+
+        if len(team) == 0:
+            result = {}
+        else:
+            result = team
+
+        return result
+
     def delete(self, data):
         """ 팀기록 삭제(현재연도/전체)"""
         if not data:

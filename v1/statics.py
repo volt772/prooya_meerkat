@@ -2,6 +2,7 @@
 # -*-coding:utf-8 -*-
 
 from v1 import *
+from collections import defaultdict
 
 """ StaticsHanlder(통계정보) """
 
@@ -40,71 +41,62 @@ class StaticsHanlder:
         # 최근 5경기
         recents = []
 
+        # 팀별통산승률
+        team_all_percentage = dict.fromkeys(
+            ["kat", "dsb", "ltg", "ncd", "skw", "nxh", "lgt", "hhe", "ssl", "ktw"],
+            0
+        )
+
         email = data.get("email")
         season_year = utils.get_year()
 
         records = stm.get_records({"email": email})
 
         if records:
+            # 사용자
             user = {
                 "user_id" : records[0]["id"],
                 "team" : records[0]["team"]
             }
 
+            if user:
+                # 사용자 팀별 통산기록(승률)
+                user_all_records = tem.get_all(user["user_id"])
+
+                team_dict = defaultdict(set)
+
+                for _record in user_all_records:
+                    for k, v in _record.items():
+                        team_dict[k].add(v)
+
+                for _team, _record in team_dict.items():
+                    win = 0
+                    lose = 0
+                    for v in _record:
+                        _pa = v.split("-")
+                        try:
+                            win += int(_pa[0])
+                            lose += int(_pa[1])
+                            rate = (win / (win+lose)) * 100
+                        except ZeroDivisionError:
+                            rate = 0
+
+                        team_all_percentage[_team] = round(rate)
+
             for idx, record in enumerate(records):
                 # 경기결과 카운트
                 if record["result"] is "w":
                     pt_win_all += 1
-                    if record["year"] == season_year:
-                        pt_win_season += 1
-                        play_count_season += 1
                 elif record["result"] is "l":
                     pt_lose_all += 1
-                    if record["year"] == season_year:
-                        pt_lose_season += 1
-                        play_count_season += 1
                 elif record["result"] is "d":
                     pt_draw_all += 1
-                    if record["year"] == season_year:
-                        pt_draw_season += 1
-                        play_count_season += 1
 
         # 전체 경기수
         play_count_all = len(records)
 
-        try:
-            winning_rate_season = pt_win_season / play_count_season
-        except ZeroDivisionError as e:
-            winning_rate_season = 0
-
         # 승률
         winning_rate_all = pt_win_all / play_count_all
-
-        # 오늘경기리스트
-        today_game = scm.get_score_with_time({
-            "regdate" : utils.get_current_date(),
-            "team": user["team"]
-        })
-
-        # 오늘경기 등록여부 검사
-        for _score in today_game:
-            getScore = _score["homescore"]
-            lostScore = _score["awayscore"]
-
-            if user["team"] == _score["awayteam"]:
-                getScore = _score["awayscore"]
-                lostScore = _score["homescore"]
-
-            play = rcm.get_one({
-                "pid": user["user_id"],
-                "team" : user["team"],
-                "playdate": _score["playdate"],
-                "get_score": getScore,
-                "lost_score": lostScore
-            })
-
-            registed_Id = play["id"] if play else 0
-            _score["registedId"] = registed_Id
 
         res = {
             "user" : user,
@@ -115,14 +107,7 @@ class StaticsHanlder:
                 "count" : play_count_all,
                 "rate" : round(winning_rate_all * 100)
             },
-            "seasonStatics" : {
-                "win" : pt_win_season,
-                "lose" : pt_lose_season,
-                "draw" : pt_draw_season,
-                "count" : play_count_season,
-                "rate" : round(winning_rate_season * 100)
-            },
-            "todayGame" : today_game
+            "teamAllPercentage" : team_all_percentage
         }
 
         return jsonify({"data": res})
