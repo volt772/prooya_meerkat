@@ -22,16 +22,10 @@ class StaticsHanlder:
 
         # 경기수
         play_count_all = 0      #: 통산
-        play_count_season = 0   #: 시즌
 
         # 승률
         winning_rate_all = 0        #: 통산
         winning_rate_season = 0     #: 시즌
-
-        # 승무패
-        pt_win_season = 0   #: 승(시즌)
-        pt_lose_season = 0  #: 패(시즌)
-        pt_draw_season = 0  #: 무(시즌)
 
         # 승무패
         pt_win_all = 0      #: 승(통산)
@@ -48,7 +42,6 @@ class StaticsHanlder:
         )
 
         email = data.get("email")
-        season_year = utils.get_year()
 
         records = stm.get_records({"email": email})
 
@@ -80,8 +73,8 @@ class StaticsHanlder:
                             rate = (win / (win+lose)) * 100
                         except ZeroDivisionError:
                             rate = 0
-
-                        team_all_percentage[_team] = round(rate)
+                        finally:
+                            team_all_percentage[_team] = round(rate)
 
             for idx, record in enumerate(records):
                 # 경기결과 카운트
