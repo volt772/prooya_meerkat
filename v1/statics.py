@@ -36,7 +36,7 @@ class StaticsHanlder:
         recents = []
 
         # 팀별통산승률
-        team_all_percentage = dict.fromkeys(
+        team_winning_rate = dict.fromkeys(
             ["kat", "dsb", "ltg", "ncd", "skw", "nxh", "lgt", "hhe", "ssl", "ktw"],
             0
         )
@@ -74,7 +74,7 @@ class StaticsHanlder:
                         except ZeroDivisionError:
                             rate = 0
                         finally:
-                            team_all_percentage[_team] = round(rate)
+                            team_winning_rate[_team] = round(rate)
 
             for idx, record in enumerate(records):
                 # 경기결과 카운트
@@ -100,7 +100,7 @@ class StaticsHanlder:
                 "count" : play_count_all,
                 "rate" : round(winning_rate_all * 100)
             },
-            "teamAllPercentage" : team_all_percentage
+            "teamWinningRate" : team_winning_rate
         }
 
         return jsonify({"data": res})
