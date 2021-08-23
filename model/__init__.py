@@ -15,5 +15,5 @@ RECORDS = "records"
 # Team List
 TEAMNAMES = [
     "kat", "dsb", "ncd", "ltg", "skw",
-    "nxh", "lgt", "hhe", "ssl", "ktw"
+    "kwh", "lgt", "hhe", "ssl", "ktw"
 ]

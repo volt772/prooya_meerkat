@@ -21,7 +21,7 @@ TEAMCODE = {
     "롯데": "ltg",
     "SK": "skw",
     "LG": "lgt",
-    "키움": "nxh",
+    "키움": "kwh",
     "삼성": "ssl",
     "한화": "hhe",
     "KT": "ktw",
