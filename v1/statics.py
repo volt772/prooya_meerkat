@@ -37,7 +37,7 @@ class StaticsHanlder:
 
         # 팀별통산승률
         team_winning_rate = dict.fromkeys(
-            ["kat", "dsb", "ltg", "ncd", "skw", "nxh", "lgt", "hhe", "ssl", "ktw"],
+            ["kat", "dsb", "ltg", "ncd", "skw", "kwh", "lgt", "hhe", "ssl", "ktw"],
             0
         )
 
