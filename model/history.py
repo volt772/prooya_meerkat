@@ -18,23 +18,29 @@ class HistoryModel:
         email = data.get("email")
         year = data.get("year")
 
-        history = db.fetch_all("""
-            SELECT r.id,
-                   r.year,
-                   r.versus,
-                   r.result,
-                   r.myteam,
-                   r.regdate,
-                   r.getscore,
-                   r.lostscore
-            FROM %s AS u
-            JOIN %s AS r
-            ON u.id = r.pid
-            WHERE u.pid = '%s'
-            AND r.year = '%d'
-            ORDER BY r.regdate DESC
-            """ % (USERS, RECORDS, email, year)
-        )
+        if not email:
+            return {}
+
+        if year > 0:
+            #: 시즌선택쿼리
+            history = db.fetch_all("""
+                SELECT r.id, r.year, r.versus, r.result, r.myteam, r.regdate, r.getscore, r.lostscore
+                FROM %s AS u
+                JOIN %s AS r ON u.id = r.pid
+                WHERE u.pid = '%s' AND r.year = '%d'
+                ORDER BY r.regdate DESC
+                """ % (USERS, RECORDS, email, year)
+            )
+        else:
+            #: 전체쿼리
+            history = db.fetch_all("""
+                SELECT r.id, r.year, r.versus, r.result, r.myteam, r.regdate, r.getscore, r.lostscore
+                FROM %s AS u
+                JOIN %s AS r ON u.id = r.pid
+                WHERE u.pid = '%s'
+                ORDER BY r.regdate DESC
+                """ % (USERS, RECORDS, email)
+            )
 
         if len(history) > 0:
             result = history

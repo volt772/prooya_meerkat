@@ -19,7 +19,7 @@ class HistoryHandler:
             return jsonify({"data": {"games": []}})
 
         email = data.get("email")
-        year = data.get("year")
+        year = data.get("year", 0)
 
         histories = []
 
@@ -50,7 +50,11 @@ class HistoryHandler:
                     "stadium": score_data["stadium"]
                 })
 
-        return jsonify({"data": {"games" : histories}})
+        print("history : ", len(histories))
+        if year > 0:
+            return jsonify({"data": {"games" : histories}})
+        else:
+            return jsonify({"games" : histories})
 
     def del_history(self, data):
         """ 기록삭제(선택)"""
