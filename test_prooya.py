@@ -94,7 +94,7 @@ class TestProoya(unittest.TestCase):
         with app.test_client() as client:
             sent = {
                 "playdate": "20180515",
-                "favteam": "nxh"
+                "favteam": "kwh"
             }
 
             result = client.post(
