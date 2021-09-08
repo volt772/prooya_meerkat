@@ -11,36 +11,45 @@ class HistoryModel:
     def __init__(self):
         pass
 
-    def get_history(self, data):
+    def get_history(self, data, page=0):
+        QUERY_LIMIT = 10
+
         if not data:
             return False
 
         email = data.get("email")
         year = data.get("year")
 
+        query_page = int(page)
+
+        offset = 0
+        limit = 0
+
+        if query_page == 1:
+            offset = 0
+            limit = QUERY_LIMIT * 4
+        else:
+            offset = query_page * 10
+            limit = QUERY_LIMIT
+
         if not email:
             return {}
 
+        query_year = ""
         if year > 0:
-            #: 시즌선택쿼리
-            history = db.fetch_all("""
-                SELECT r.id, r.year, r.versus, r.result, r.myteam, r.regdate, r.getscore, r.lostscore
-                FROM %s AS u
-                JOIN %s AS r ON u.id = r.pid
-                WHERE u.pid = '%s' AND r.year = '%d'
-                ORDER BY r.regdate DESC
-                """ % (USERS, RECORDS, email, year)
-            )
-        else:
-            #: 전체쿼리
-            history = db.fetch_all("""
-                SELECT r.id, r.year, r.versus, r.result, r.myteam, r.regdate, r.getscore, r.lostscore
-                FROM %s AS u
-                JOIN %s AS r ON u.id = r.pid
-                WHERE u.pid = '%s'
-                ORDER BY r.regdate DESC
-                """ % (USERS, RECORDS, email)
-            )
+            query_year = """AND r.year = '%d'""" % (year)
+
+        #: 전체쿼리
+        history = db.fetch_all("""
+            SELECT r.id, r.year, r.versus, r.result, r.myteam, r.regdate, r.getscore, r.lostscore
+            FROM %s AS u
+            JOIN %s AS r ON u.id = r.pid
+            WHERE u.pid = '%s' %s
+            ORDER BY r.regdate DESC
+            OFFSET %d
+            LIMIT %d
+            """ % (USERS, RECORDS, email, query_year, int(offset), int(limit))
+        )
 
         if len(history) > 0:
             result = history

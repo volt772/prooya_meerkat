@@ -77,7 +77,9 @@ def teams(func):
 @app.route("/prooya/v1/histories/<func>", methods=["POST"])
 def history(func):
     """ 기록"""
-    return meerkat.history(request.get_json(silent=True), func)
+    ap = request.args.get("page")
+    page = ap if ap else 0
+    return meerkat.history(request.get_json(silent=True), func, page)
 
 
 """ Prooya Old Routing (until ver3) """
