@@ -104,11 +104,11 @@ def teams(data, func):
         raise ApplicationException(str(e))
 
 
-def history(data, func, page=0):
+def history(data, func, args=None):
     """ 기록"""
     try:
         if func == "all":
-            return _hi.get_history(data, page)
+            return _hi.get_history(data, args)
         elif func == "del":
             return _hi.del_history(data)
         elif func == "post":

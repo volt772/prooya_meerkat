@@ -11,8 +11,8 @@ class HistoryModel:
     def __init__(self):
         pass
 
-    def get_history(self, data, page=0):
-        QUERY_LIMIT = 10
+    def get_history(self, data, args):
+        # QUERY_LIMIT = 10
 
         if not data:
             return False
@@ -20,17 +20,12 @@ class HistoryModel:
         email = data.get("email")
         year = data.get("year")
 
-        query_page = int(page)
+        query_page = int(args.get("page"))
+        query_limit = int(args.get("size", 10))
 
-        offset = 0
-        limit = 0
-
-        if query_page == 1:
-            offset = 0
-            limit = QUERY_LIMIT * 4
-        else:
-            offset = query_page * 10
-            limit = QUERY_LIMIT
+        #: Paging 대응
+        offset = (query_page - 1) * query_limit
+        limit = query_limit
 
         if not email:
             return {}
@@ -51,12 +46,7 @@ class HistoryModel:
             """ % (USERS, RECORDS, email, query_year, int(offset), int(limit))
         )
 
-        if len(history) > 0:
-            result = history
-        else:
-            result = {}
-
-        return result
+        return history
 
     def del_history(self, data):
         """ 기록 삭제(선택)"""

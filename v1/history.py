@@ -13,7 +13,7 @@ class HistoryHandler:
     def __init__(self):
         self.HTEAMS = TeamsHandler()
 
-    def get_history(self, data, page=0):
+    def get_history(self, data, args):
         """ 전체 데이터"""
         if not data:
             return jsonify({"data": {"games": []}})
@@ -23,10 +23,10 @@ class HistoryHandler:
 
         histories = []
 
-        history = him.get_history({"email": email, "year": year}, page)
+        history = him.get_history({"email": email, "year": year}, args)
 
         if not history:
-            return jsonify({"data": {"games": []}})
+            return jsonify({"games": []})
 
         for play in history:
             score = scm.getAll({
@@ -55,7 +55,7 @@ class HistoryHandler:
     def del_history(self, data):
         """ 기록삭제(선택)"""
         if not data:
-            return jsonify({"data": {"count" : res * 1}})
+            return jsonify({"data": {"count" : 0}})
 
         res = him.del_history({
             "rid": data["rid"],
