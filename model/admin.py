@@ -94,7 +94,7 @@ class AdminModel:
 
         return res
 
-    def get_users(self, data):
+    def get_users(self, data, args):
         """ 사용자전체리스트"""
         if not data:
             return False
@@ -102,20 +102,29 @@ class AdminModel:
         team = data["team"]
         keyword = data["keyword"]
 
+        query_page = int(args.get("page"))
+        query_limit = int(args.get("size", 10))
+
+        #: Paging 대응
+        offset = (query_page - 1) * query_limit
+        limit = query_limit
+
         if team == "all":
             team = ""
 
         query = """
-            SELECT id, 
-                   pid, 
-                   regdate, 
-                   team, 
-                   fcm_token
+            SELECT id as id, 
+                   pid as email, 
+                   regdate as regDate, 
+                   team as team, 
+                   fcm_token as fcmToken
             FROM {0}
             WHERE pid LIKE '%{1}%'
             AND team LIKE '%{2}%'
             ORDER BY regdate DESC
-            """.format(USERS, keyword, team, )
+            OFFSET {3}
+            LIMIT {4}
+            """.format(USERS, keyword, team, int(offset), int(limit))
 
         users = db.fetch_all(query)
 

@@ -16,7 +16,7 @@ class HistoryHandler:
     def get_history(self, data, args):
         """ 전체 데이터"""
         if not data:
-            return jsonify({"data": {"games": []}})
+            return jsonify({"games": []})
 
         email = data.get("email")
         year = data.get("year", 0)

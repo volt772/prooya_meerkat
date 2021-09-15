@@ -55,13 +55,13 @@ class AdminHandler:
 
         return jsonify({"data": {"status" : game["id"]}})
 
-    def get_users(self, data):
+    def get_users(self, data, args):
         """ 사용자전체리스트"""
         if not data:
-	        return jsonify({"data": {"users" : []}})
+	        return jsonify({"users" : []})
 
-        users = adm.get_users(data)
-        return jsonify({"data": {"users" : users}})
+        users = adm.get_users(data, args)
+        return jsonify({"users" : users})
 
     def get_user_records(self, data):
         """ 사용자기록리스트"""

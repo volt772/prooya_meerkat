@@ -44,7 +44,7 @@ def ping():
     return jsonify({"data": {"status": ping * 1}})
 
     
-def admin(data, func):
+def admin(data, func, args=None):
     """ 관리자정보"""
     try:
         if func == "getscore":
@@ -56,7 +56,7 @@ def admin(data, func):
         elif func == "postgame":
             return _ad.post_new_game(data)
         elif func == "getusers":
-            return _ad.get_users(data)
+            return _ad.get_users(data, args)
         elif func == "getrecords":
             return _ad.get_user_records(data)
     except Exception as e:

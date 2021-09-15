@@ -47,7 +47,7 @@ def ping():
 @app.route("/prooya/v1/admin/<func>", methods=["POST"])
 def admin(func):
     """ 관리자정보"""
-    return meerkat.admin(request.get_json(silent=True), func)
+    return meerkat.admin(request.get_json(silent=True), func, request.args)
 
 
 @app.route("/prooya/v1/users/<func>", methods=["POST"])
