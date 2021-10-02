@@ -17,12 +17,12 @@ class AdminModel:
             return False
 
         query = """
-            SELECT id, 
-                   hometeam, 
-                   homescore, 
-                   awayteam, 
-                   awayscore, 
-                   stadium, 
+            SELECT id,
+                   hometeam,
+                   homescore,
+                   awayteam,
+                   awayscore,
+                   stadium,
                    starttime
             FROM %s
             WHERE playdate = '%s'
@@ -38,9 +38,9 @@ class AdminModel:
             return False
 
         query = """
-            SELECT hometeam, 
-                   homescore, 
-                   awayteam, 
+            SELECT hometeam,
+                   homescore,
+                   awayteam,
                    awayscore
             FROM %s
             WHERE playdate = '%s'
@@ -113,10 +113,10 @@ class AdminModel:
             team = ""
 
         query = """
-            SELECT id as id, 
-                   pid as email, 
-                   regdate as regDate, 
-                   team as team, 
+            SELECT id as id,
+                   pid as email,
+                   regdate as regDate,
+                   team as team,
                    fcm_token as fcmToken
             FROM {0}
             WHERE pid LIKE '%{1}%'
@@ -136,10 +136,10 @@ class AdminModel:
             return False
 
         query = """
-            SELECT pid, 
-                   year, 
-                   versus, 
-                   result, 
+            SELECT pid,
+                   year,
+                   versus,
+                   result,
                    regdate
             FROM %s
             WHERE pid = '%s'

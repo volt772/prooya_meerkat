@@ -60,8 +60,29 @@ class AdminHandler:
         if not data:
 	        return jsonify({"users" : []})
 
-        users = adm.get_users(data, args)
+        users_db = adm.get_users(data, args)
+
+        users = []
+        for user in users_db:
+            users.append({
+                    "id" : user["id"],
+                    "fcmToken" : user["fcmtoken"],
+                    "email" : user["email"],
+                    "regDate" : user["regdate"],
+                    "team" : user["team"],
+                    "pagingKey" : self.make_paging_keys(user["email"], user["id"])
+                }
+            )
+
+
         return jsonify({"users" : users})
+
+    def make_paging_keys(self, email, user_id):
+        email_arr = email.split("@")
+        firstKey = email_arr[0][0:2]
+        lastKey = email_arr[1][0:2]
+
+        return firstKey + lastKey + str(user_id)
 
     def get_user_records(self, data):
         """ 사용자기록리스트"""
