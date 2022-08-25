@@ -7,7 +7,6 @@ from model import *
 
 
 class StaticsModel:
-
     def __init__(self):
         pass
 
@@ -17,7 +16,8 @@ class StaticsModel:
 
         email = data.get("email")
 
-        records = db.fetch_all("""
+        records = db.fetch_all(
+            """
             SELECT r.id,
                    r.year,
                    r.versus,
@@ -33,7 +33,8 @@ class StaticsModel:
             ON u.id = r.pid
             WHERE u.pid = '%s'
             ORDER BY r.regdate DESC
-            """ % (USERS, RECORDS, email)
+            """
+            % (USERS, RECORDS, email)
         )
 
         if len(records) > 0:

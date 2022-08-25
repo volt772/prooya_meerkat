@@ -1,11 +1,11 @@
 #!/usr/bin/python
-#-*-coding:utf-8-*-
+# -*-coding:utf-8-*-
 
 import ast
-import json
-import psycopg2
 import datetime
+import json
 
+import psycopg2
 from psycopg2 import connect
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
@@ -19,7 +19,7 @@ team_list = {
     "lgt": "soj",
     "hhe": "dje",
     "ssl": "dgl",
-    "ktw": "sww"
+    "ktw": "sww",
 }
 
 
@@ -45,20 +45,22 @@ def update():
     cur.close()
 
     # for i in range(1, 837):
-    #	query = """SELECT hometeam FROM scores WHERE id = {0}""".format(str(i))
-    #	cur = con.cursor()
-    #	cur.execute(query)
-    #	res = cur.fetchall()
+    # 	query = """SELECT hometeam FROM scores WHERE id = {0}""".format(str(i))
+    # 	cur = con.cursor()
+    # 	cur.execute(query)
+    # 	res = cur.fetchall()
 
-    #	hometeam = res[0][0]
-    #	stadium = team_list[hometeam]
-    #	query = """UPDATE scores SET stadium = '{0}' WHERE id = '479'"""
-    #	cur.execute(query)
-    #	cur.close()
-#	cur = con.cursor()
-#	cur.execute(query)
+    # 	hometeam = res[0][0]
+    # 	stadium = team_list[hometeam]
+    # 	query = """UPDATE scores SET stadium = '{0}' WHERE id = '479'"""
+    # 	cur.execute(query)
+    # 	cur.close()
+
+
+# 	cur = con.cursor()
+# 	cur.execute(query)
 #
-#	cur.close()
+# 	cur.close()
 
 
 if __name__ == "__main__":

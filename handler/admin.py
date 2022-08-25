@@ -7,12 +7,11 @@ from handler import *
 
 
 class AdminHandler:
-
     def __init__(self):
         pass
 
     def get_score(self, data):
-        """ 경기일 점수정보"""
+        """경기일 점수정보"""
         if not data:
             return False
 
@@ -21,7 +20,7 @@ class AdminHandler:
         return jsonify({"res": scores})
 
     def put_score(self, data):
-        """ 경기스코어 갱신"""
+        """경기스코어 갱신"""
         if not data:
             return False
 
@@ -29,15 +28,18 @@ class AdminHandler:
         awayscore = data["awayScore"]
         homescore = data["homeScore"]
 
-        score = MADMIN.put_score({
-            "dbid": dbid,
-            "awayscore": awayscore,
-            "homescore": homescore, })
+        score = MADMIN.put_score(
+            {
+                "dbid": dbid,
+                "awayscore": awayscore,
+                "homescore": homescore,
+            }
+        )
 
         return jsonify({"res": score})
 
     def get_users(self, data):
-        """ 사용자전체리스트"""
+        """사용자전체리스트"""
         if not data:
             return False
 
@@ -45,13 +47,11 @@ class AdminHandler:
         return jsonify({"res": users})
 
     def get_user_records(self, data):
-        """ 사용자기록리스트"""
+        """사용자기록리스트"""
         if not data:
             return False
 
         user_id = data["id"]
-        records = MADMIN.get_user_records({
-            "user_id": user_id
-        })
+        records = MADMIN.get_user_records({"user_id": user_id})
 
         return jsonify({"res": records})

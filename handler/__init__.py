@@ -3,12 +3,11 @@
 
 from flask import jsonify
 from helper import utils
-
 from model.admin import AdminModel
-from model.user import UserModel
-from model.team import TeamModel
 from model.record import RecordModel
 from model.score import ScoreModel
+from model.team import TeamModel
+from model.user import UserModel
 
 # Model Variable
 MADMIN = AdminModel()

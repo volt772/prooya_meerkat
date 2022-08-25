@@ -2,15 +2,14 @@
 # -*-coding:utf-8 -*-
 
 from flask import jsonify
-from helper import utils, datum
-
-from model.statics import StaticsModel
-from model.record import RecordModel
-from model.team import TeamModel
-from model.history import HistoryModel
-from model.score import ScoreModel
-from model.user import UserModel
+from helper import datum, utils
 from model.admin import AdminModel
+from model.history import HistoryModel
+from model.record import RecordModel
+from model.score import ScoreModel
+from model.statics import StaticsModel
+from model.team import TeamModel
+from model.user import UserModel
 
 # Model Variable
 stm = StaticsModel()

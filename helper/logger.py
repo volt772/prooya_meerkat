@@ -1,9 +1,8 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 
-import os
 import logging
-
+import os
 from logging import handlers
 
 _LOGGER = {
@@ -17,7 +16,7 @@ formatter = logging.Formatter("%(asctime)s [%(message)s]")
 
 
 def setup_logger(name, log_file, level=logging.INFO):
-    """ 로그 기본설정 """
+    """로그 기본설정"""
     log_path = "{0}/{1}".format(_BASIC_PATH, log_file)
 
     mode = "a"
@@ -33,7 +32,7 @@ def setup_logger(name, log_file, level=logging.INFO):
 
 
 def save_log(kind, msg):
-    """ 로그 저장 """
+    """로그 저장"""
     if not kind or not msg:
         return False
 

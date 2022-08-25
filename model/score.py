@@ -7,12 +7,11 @@ from model import *
 
 
 class ScoreModel:
-
     def __init__(self):
         pass
 
     def get(self, data):
-        """ 점수 가져오기"""
+        """점수 가져오기"""
         if not data:
             return False
 
@@ -26,14 +25,19 @@ class ScoreModel:
             FROM %s
             WHERE playdate = '%s'
             AND (hometeam = '%s' OR awayteam = '%s')
-            """ % (SCORES, data["playdate"], data["favteam"], data["favteam"])
+            """ % (
+            SCORES,
+            data["playdate"],
+            data["favteam"],
+            data["favteam"],
+        )
 
         score = db.fetch_one(query)
 
         return score
 
     def getAll(self, data):
-        """ 점수 가져오기"""
+        """점수 가져오기"""
         if not data:
             return False
 
@@ -47,14 +51,19 @@ class ScoreModel:
             FROM %s
             WHERE playdate = '%s'
             AND (hometeam = '%s' OR awayteam = '%s')
-            """ % (SCORES, data["playdate"], data["favteam"], data["favteam"])
+            """ % (
+            SCORES,
+            data["playdate"],
+            data["favteam"],
+            data["favteam"],
+        )
 
         score = db.fetch_all(query)
 
         return score
 
     def get_score_with_time(self, data):
-        """ 기록 가져오기(경기정보)"""
+        """기록 가져오기(경기정보)"""
         if not data:
             return False
 
@@ -74,21 +83,29 @@ class ScoreModel:
             WHERE playdate = '%s'
             AND (awayteam = '%s' or hometeam = '%s')
             ORDER BY starttime
-            """ % (SCORES, regdate, team, team)
+            """ % (
+            SCORES,
+            regdate,
+            team,
+            team,
+        )
 
         scores = db.fetch_all(query)
 
         if len(scores) > 0:
             result = scores
         else:
-            result = [{
-                "awayscore": 0,
-                "awayteam": team,
-                "homescore": 0,
-                "hometeam": team,
-                "id": 0,
-                "playdate": int(regdate),
-                "stadium": "",
-                "starttime": 0 }]
+            result = [
+                {
+                    "awayscore": 0,
+                    "awayteam": team,
+                    "homescore": 0,
+                    "hometeam": team,
+                    "id": 0,
+                    "playdate": int(regdate),
+                    "stadium": "",
+                    "starttime": 0,
+                }
+            ]
 
         return result

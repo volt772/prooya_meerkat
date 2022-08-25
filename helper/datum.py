@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*-coding:utf-8 -*-
 
-import json
 import ast
+import json
 
 
 def get_score_data(score, play):

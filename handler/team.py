@@ -7,33 +7,28 @@ from handler import *
 
 
 class TeamHandler:
-
     def __init__(self):
         pass
 
     def get_team(self, data):
-        """ 팀 정보"""
+        """팀 정보"""
         if not data:
             return jsonify({"res": False})
 
         year = utils.get_year()
-        team = MTEAM.get({
-            "pid": data["pid"],
-            "year": year})
+        team = MTEAM.get({"pid": data["pid"], "year": year})
 
         if team:
-            team["regdate"] = utils.convert_timedata({
-                "time": team["regdate"],
-                "type": 1})
+            team["regdate"] = utils.convert_timedata(
+                {"time": team["regdate"], "type": 1}
+            )
 
-            record = MRECORD.get_recent({
-                "pid": data["pid"],
-                "year": year})
+            record = MRECORD.get_recent({"pid": data["pid"], "year": year})
 
             if record:
-                record["regdate"] = utils.convert_timedata({
-                    "time": record["regdate"],
-                    "type": 1})
+                record["regdate"] = utils.convert_timedata(
+                    {"time": record["regdate"], "type": 1}
+                )
 
                 team["recent_regdate"] = record["regdate"]
                 team["recent_versus"] = record["versus"]
@@ -42,7 +37,7 @@ class TeamHandler:
         return jsonify({"res": team})
 
     def del_team(self, data):
-        """ 팀 정보삭제"""
+        """팀 정보삭제"""
         if not data:
             return jsonify({"res": False})
 
@@ -51,7 +46,7 @@ class TeamHandler:
         return jsonify({"res": team})
 
     def post_team(self, data):
-        """ 팀 정보 신규등록"""
+        """팀 정보 신규등록"""
         if not data:
             return jsonify({"res": False})
 
@@ -65,7 +60,7 @@ class TeamHandler:
         return jsonify({"res": team})
 
     def put_team(self, data):
-        """ 팀 정보 수정"""
+        """팀 정보 수정"""
         if not data:
             return jsonify({"res": False})
 

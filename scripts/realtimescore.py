@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 
+import datetime
+import http.client
+import json
 import re
 import time
-import json
-import http.client
-import urllib.request, urllib.error, urllib.parse
-import datetime
+import urllib.error
+import urllib.parse
+import urllib.request
+from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
-from urllib.parse import urlparse
 from psycopg2 import connect
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
@@ -32,8 +34,7 @@ month = time.strftime("%m")
 day = time.strftime("%d")
 date = year + month + day  # "20130615"
 
-con = connect(dbname="prooya", user="prooya",
-              host="localhost", password="CjsdksgkA77@")
+con = connect(dbname="prooya", user="prooya", host="localhost", password="CjsdksgkA77@")
 con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
 
@@ -42,8 +43,9 @@ def get_fcm_list(acode, hcode):
     fcm_list = []
     query = """SELECT id, pid, fcm_token
          FROM users
-         WHERE team='{0}' or team='{1}'"""\
-         .format(acode, hcode)
+         WHERE team='{0}' or team='{1}'""".format(
+        acode, hcode
+    )
 
     cur = con.cursor()
     cur.execute(query)
@@ -79,20 +81,19 @@ def fcm_send(acode, ascore, hcode, hscore):
                         "acode": acode,
                         "hcode": hcode,
                         "ascore": ascore,
-                        "hscore": hscore
-                    }
+                        "hscore": hscore,
+                    },
                 }
 
-                headers = {"Authorization": API_KEY,
-                           "Content-Type": "application/json"}
+                headers = {"Authorization": API_KEY, "Content-Type": "application/json"}
 
                 conn = http.client.HTTPConnection("fcm.googleapis.com", timeout=3)
-                conn.request("POST",
-                             "/fcm/send",
-                             json.dumps(fdata, ensure_ascii=False).encode(
-                                 "utf-8"),
-                             headers
-                             )
+                conn.request(
+                    "POST",
+                    "/fcm/send",
+                    json.dumps(fdata, ensure_ascii=False).encode("utf-8"),
+                    headers,
+                )
                 conn.close()
             except Exception as e:
                 print("ex : ", e)
@@ -105,8 +106,9 @@ def update_data(ateam, ascore, hteam, hscore):
         query = """UPDATE scores
                 SET awayscore={0}, homescore={1}
                 WHERE awayteam='{2}' AND hometeam='{3}' AND playdate={4}
-                AND awayscore = 997 AND homescore = 997"""\
-                .format(ascore, hscore, ateam, hteam, date)
+                AND awayscore = 997 AND homescore = 997""".format(
+            ascore, hscore, ateam, hteam, date
+        )
 
         cur = con.cursor()
         cur.execute(query)
@@ -123,8 +125,9 @@ def select_data():
     games_arr = {}
     query = """SELECT id, awayteam, awayscore, hometeam, homescore
             FROM scores
-            WHERE playdate='{0}'"""\
-            .format(date)
+            WHERE playdate='{0}'""".format(
+        date
+    )
 
     cur = con.cursor()
     cur.execute(query)
@@ -160,7 +163,8 @@ def check_game_allfinished(games):
 def get_reg_score(score_tag):
     """게임스코어가져오기(정규식 파싱)"""
     pattern = re.compile(
-        '<\/?\w+\s*[^>]*?\/?>', re.DOTALL | re.MULTILINE | re.IGNORECASE | re.UNICODE)
+        "<\/?\w+\s*[^>]*?\/?>", re.DOTALL | re.MULTILINE | re.IGNORECASE | re.UNICODE
+    )
     score = pattern.sub(" ", str(score_tag)).strip()
 
     return score
@@ -183,30 +187,37 @@ def crawl_games():
             game_list = soup.find("ul", id="todaySchedule")
             games = game_list.find_all("li")
 
-            p = re.compile(r'<.*?>')
+            p = re.compile(r"<.*?>")
 
             for game in games:
                 #: 게임종료확인
                 game_finished = False
-                game_status = game.find(
-                    "div", class_="vs_cnt").find(class_="state")
+                game_status = game.find("div", class_="vs_cnt").find(class_="state")
 
                 if "종료" in str(game_status):
                     game_finished = True
 
                 if game_finished:
                     #: 원정팀
-                    away_team = game.find("div", class_="vs_lft").find(
-                        class_="vs_team").strong.string
-                    away_score_tag = game.find(
-                        "div", class_="vs_lft").find(class_="vs_num")
+                    away_team = (
+                        game.find("div", class_="vs_lft")
+                        .find(class_="vs_team")
+                        .strong.string
+                    )
+                    away_score_tag = game.find("div", class_="vs_lft").find(
+                        class_="vs_num"
+                    )
                     ascore = get_reg_score(away_score_tag)
 
                     #: 홈팀
-                    home_team = game.find("div", class_="vs_rgt").find(
-                        class_="vs_team").strong.string
-                    home_score_tag = game.find(
-                        "div", class_="vs_rgt").find(class_="vs_num")
+                    home_team = (
+                        game.find("div", class_="vs_rgt")
+                        .find(class_="vs_team")
+                        .strong.string
+                    )
+                    home_score_tag = game.find("div", class_="vs_rgt").find(
+                        class_="vs_num"
+                    )
                     hscore = get_reg_score(home_score_tag)
 
                     acode = TEAMCODE[away_team.upper()]
@@ -222,4 +233,4 @@ def crawl_games():
 
 if __name__ == "__main__":
     crawl_games()
-    #fcm_send("dsb", 2, "kat", 5)
+    # fcm_send("dsb", 2, "kat", 5)

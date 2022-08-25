@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 # -*-coding:utf-8 -*-
 
-import os
 import datetime
+import os
 
 
 def get_host():
-    f = open("%s/app_flag" %(os.getcwd()), 'r')
+    f = open("%s/app_flag" % (os.getcwd()), "r")
     content = f.read().strip()
 
     host = "te"
@@ -19,22 +19,22 @@ def get_host():
 def check_ping():
     return True
 
+
 def get_current_date():
-    """ 현재일 계산 """
+    """현재일 계산"""
     now = datetime.datetime.now()
-    today = now.strftime('%Y%m%d')
+    today = now.strftime("%Y%m%d")
     return today
 
 
 def get_year():
-    """ 연도 계산
-        익년도 3월이전은 전년도로 계산
-        ex) 2018년 2월 > 2017년
-            2018년 3월 > 2018년
-            2017년 10월 > 2017년
+    """연도 계산
+    익년도 3월이전은 전년도로 계산
+    ex) 2018년 2월 > 2017년
+        2018년 3월 > 2018년
+        2017년 10월 > 2017년
     """
-    now_date = str(datetime.datetime.now().year) + \
-        str(datetime.datetime.now().month)
+    now_date = str(datetime.datetime.now().year) + str(datetime.datetime.now().month)
     next_date = str(datetime.datetime.now().year + 1) + "03"
 
     year = datetime.datetime.now().year
@@ -50,7 +50,7 @@ def get_year():
 
 
 def convert_timedata(data):
-    """ 시간형식변환 """
+    """시간형식변환"""
     if not data:
         return False
 
@@ -71,11 +71,9 @@ def convert_timedata(data):
 
 
 def check_play_result(data, favteam):
-    """ 경기승패유무확인 """
-    awayteam = {"score": data["awayscore"],
-                "team": data["awayteam"], "my": False}
-    hometeam = {"score": data["homescore"],
-                "team": data["hometeam"], "my": False}
+    """경기승패유무확인"""
+    awayteam = {"score": data["awayscore"], "team": data["awayteam"], "my": False}
+    hometeam = {"score": data["homescore"], "team": data["hometeam"], "my": False}
 
     if awayteam["team"] == favteam:
         awayteam["my"] = True
@@ -104,20 +102,22 @@ def check_play_result(data, favteam):
 
 
 def reorder_analystic_data(data):
-    """ 전적 정렬 """
+    """전적 정렬"""
     if not data:
         return ""
 
     plays = []
     for k, v in list(data.items()):
         play_arr = v.split("-")
-        plays.append({"team" : k ,"win" : play_arr[0], "lose" : play_arr[1], "draw" : play_arr[2]})
+        plays.append(
+            {"team": k, "win": play_arr[0], "lose": play_arr[1], "draw": play_arr[2]}
+        )
 
     return plays
 
 
 def reorder_teamdata(data):
-    """ 전적 재계산 """
+    """전적 재계산"""
     if not data:
         return False
 
@@ -145,8 +145,9 @@ def reorder_teamdata(data):
     new_record = "-".join(versus)
     return new_record
 
+
 def check_zero_score(score):
-    """ 음수 점수 예외처리 """
+    """음수 점수 예외처리"""
     return 0 if score < 0 else score
 
 
