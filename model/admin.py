@@ -7,12 +7,11 @@ from model import *
 
 
 class AdminModel:
-
     def __init__(self):
         pass
 
     def get_scores(self, playdate):
-        """ 경기데이터조회"""
+        """경기데이터조회"""
         if not playdate:
             return False
 
@@ -26,14 +25,17 @@ class AdminModel:
                    starttime
             FROM %s
             WHERE playdate = '%s'
-            """ % (SCORES, playdate)
+            """ % (
+            SCORES,
+            playdate,
+        )
 
         scores = db.fetch_all(query)
 
         return scores
 
     def get_day_games(self, playdate):
-        """ 경기 리스트"""
+        """경기 리스트"""
         if not playdate:
             return False
 
@@ -44,14 +46,17 @@ class AdminModel:
                    awayscore
             FROM %s
             WHERE playdate = '%s'
-            """ % (SCORES, playdate)
+            """ % (
+            SCORES,
+            playdate,
+        )
 
         scores = db.fetch_all(query)
 
         return scores
 
     def put_score(self, data):
-        """ 경기데이터수정"""
+        """경기데이터수정"""
         if not data:
             return False
 
@@ -60,14 +65,19 @@ class AdminModel:
             SET awayscore = '%s', homescore = '%s'
             WHERE id = '%s'
             RETURNING id
-            """ % (SCORES, data["awayscore"], data["homescore"], data["dbid"],)
+            """ % (
+            SCORES,
+            data["awayscore"],
+            data["homescore"],
+            data["dbid"],
+        )
 
         res = db.fetch_one(query)
 
         return res
 
     def post_new_game(self, data):
-        """ 경기등록"""
+        """경기등록"""
         if not data:
             return False
 
@@ -77,25 +87,33 @@ class AdminModel:
         stadium = data.get("stadium", "")
         start_time = data.get("starttime", "")
 
-        if play_date == "" or \
-           away_team == "" or \
-           home_team == "" or \
-           stadium == "" or \
-           start_time == "":
+        if (
+            play_date == ""
+            or away_team == ""
+            or home_team == ""
+            or stadium == ""
+            or start_time == ""
+        ):
             return False
 
         query = """
             INSERT INTO %s
             (playdate, awayteam, awayscore, hometeam, homescore, stadium, starttime)
-            VALUES ('%s', '%s', 998, '%s', 998, '%s', '%s') RETURNING id """ \
-            % (SCORES, play_date, away_team, home_team, stadium, start_time)
+            VALUES ('%s', '%s', 998, '%s', 998, '%s', '%s') RETURNING id """ % (
+            SCORES,
+            play_date,
+            away_team,
+            home_team,
+            stadium,
+            start_time,
+        )
 
         res = db.fetch_one(query)
 
         return res
 
     def get_users(self, data):
-        """ 사용자전체리스트"""
+        """사용자전체리스트"""
         if not data:
             return False
 
@@ -115,14 +133,18 @@ class AdminModel:
             WHERE pid LIKE '%{1}%'
             AND team LIKE '%{2}%'
             ORDER BY regdate DESC
-            """.format(USERS, keyword, team, )
+            """.format(
+            USERS,
+            keyword,
+            team,
+        )
 
         users = db.fetch_all(query)
 
         return users
 
     def get_user_records(self, data):
-        """ 사용자기록리스트"""
+        """사용자기록리스트"""
         if not data:
             return False
 
@@ -135,7 +157,10 @@ class AdminModel:
             FROM %s
             WHERE pid = '%s'
             ORDER BY regdate DESC
-            """ % (RECORDS, data["user_id"])
+            """ % (
+            RECORDS,
+            data["user_id"],
+        )
 
         records = db.fetch_all(query)
 

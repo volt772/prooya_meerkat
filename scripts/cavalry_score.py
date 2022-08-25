@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 import sys
 import time
-import datetime
 
 from psycopg2 import connect
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-
 
 year = time.strftime("%Y")
 month = time.strftime("%m")
 day = time.strftime("%d")
 date = year + month + day  # "20130615"
 
-con = connect(dbname="prooya", user="prooya",
-              host="localhost", password="CjsdksgkA77@")
+con = connect(dbname="prooya", user="prooya", host="localhost", password="CjsdksgkA77@")
 con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
 
@@ -25,8 +23,9 @@ def update_cavalry_score(_id):
                 WHERE awayscore=998
                 AND homescore=998
                 AND playdate='{0}'
-                AND id='{1}'"""\
-                .format(date, _id)
+                AND id='{1}'""".format(
+            date, _id
+        )
 
         cur = con.cursor()
         cur.execute(query)

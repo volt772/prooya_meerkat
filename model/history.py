@@ -7,7 +7,6 @@ from model import *
 
 
 class HistoryModel:
-
     def __init__(self):
         pass
 
@@ -18,7 +17,8 @@ class HistoryModel:
         email = data.get("email")
         year = data.get("year")
 
-        history = db.fetch_all("""
+        history = db.fetch_all(
+            """
             SELECT r.id,
                    r.year,
                    r.versus,
@@ -33,7 +33,8 @@ class HistoryModel:
             WHERE u.pid = '%s'
             AND r.year = '%d'
             ORDER BY r.regdate DESC
-            """ % (USERS, RECORDS, email, year)
+            """
+            % (USERS, RECORDS, email, year)
         )
 
         if len(history) > 0:
@@ -44,7 +45,7 @@ class HistoryModel:
         return result
 
     def del_history(self, data):
-        """ 기록 삭제(선택)"""
+        """기록 삭제(선택)"""
         if not data:
             return False
 
@@ -53,15 +54,17 @@ class HistoryModel:
         else:
             del_condition = "id = '%s'" % (data["rid"])
 
-        res = db.execute("""
+        res = db.execute(
+            """
             DELETE FROM %s
             WHERE %s AND year = '%s'"""
-                         % (RECORDS, del_condition, data["year"]))
+            % (RECORDS, del_condition, data["year"])
+        )
 
         return res
 
     def get_team_static(self, data):
-        """ 팀기록 가져오기(현재 연도기록/전체)"""
+        """팀기록 가져오기(현재 연도기록/전체)"""
         if not data:
             return False
 
@@ -71,24 +74,38 @@ class HistoryModel:
             JOIN %s AS t
             ON u.id = t.pid
             WHERE u.pid = '%s' AND t.year = '%s'
-            """ % (USERS, TEAMS, data["pid"], data["year"],)
+            """ % (
+            USERS,
+            TEAMS,
+            data["pid"],
+            data["year"],
+        )
 
         team = db.fetch_one(query)
 
         return team
 
     def post(self, data):
-        """ 기록 추가"""
+        """기록 추가"""
         if not data:
             return False
 
-        record_id = db.fetch_one("""
+        record_id = db.fetch_one(
+            """
             INSERT INTO %s
             (pid, year, versus, result, getscore, lostscore, regdate, myteam)
             VALUES (%s, %s, '%s', '%s', %s, %s, '%s', '%s') RETURNING id"""
-                                 % (RECORDS, data["pid"], data["year"],
-                                    data["versus"], data["result"],
-                                    data["getscore"], data["lostscore"],
-                                    data["regdate"], data["myteam"]))
+            % (
+                RECORDS,
+                data["pid"],
+                data["year"],
+                data["versus"],
+                data["result"],
+                data["getscore"],
+                data["lostscore"],
+                data["regdate"],
+                data["myteam"],
+            )
+        )
 
         return record_id["id"]

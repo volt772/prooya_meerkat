@@ -7,17 +7,16 @@ from v1 import *
 
 
 class TeamsHandler:
-
     def __init__(self):
         pass
 
     def get_teams(self, data):
-        """ 팀별 기록 데이터"""
+        """팀별 기록 데이터"""
         if not data:
             return jsonify({"data": False})
 
         # 승무패
-        pt_win = 0   #: 승
+        pt_win = 0  #: 승
         pt_lose = 0  #: 패
         pt_draw = 0  #: 무
 
@@ -36,7 +35,7 @@ class TeamsHandler:
                 "win": int(analystic["win"]),
                 "lose": int(analystic["lose"]),
                 "draw": int(analystic["draw"]),
-                "rate": int(self.get_winning_rate(analystic))
+                "rate": int(self.get_winning_rate(analystic)),
             }
 
             pt_win += int(analystic["win"])
@@ -47,32 +46,31 @@ class TeamsHandler:
 
         res = {
             "teams": team_list,
-            "summary": {
-                "win": pt_win,
-                "lose": pt_lose,
-                "draw": pt_draw,
-                "year": year}
+            "summary": {"win": pt_win, "lose": pt_lose, "draw": pt_draw, "year": year},
         }
 
         return jsonify({"data": res})
 
     def get_details(self, data):
-        """ 팀별 상세정보"""
+        """팀별 상세정보"""
         if not data:
-            return jsonify({"data": {"games" : []}})
+            return jsonify({"data": {"games": []}})
 
-        records = tem.get_details({
-            "email": data["email"],
-            "versus": data["versus"],
-            "year": data["year"]})
+        records = tem.get_details(
+            {"email": data["email"], "versus": data["versus"], "year": data["year"]}
+        )
 
         record_list = []
         if records:
             for idx, record in enumerate(records):
-                score = scm.getAll({
-                    "playdate": utils.convert_timedata({"time": record["regdate"], "type": 3}),
-                    "favteam": record["team"]
-                })
+                score = scm.getAll(
+                    {
+                        "playdate": utils.convert_timedata(
+                            {"time": record["regdate"], "type": 3}
+                        ),
+                        "favteam": record["team"],
+                    }
+                )
 
                 score_data = datum.get_score_data(score, record)
 
@@ -85,15 +83,15 @@ class TeamsHandler:
                         "awayScore": score_data["awayscore"],
                         "homeTeam": score_data["hometeam"],
                         "homeScore": score_data["homescore"],
-                        "stadium": score_data["stadium"]
+                        "stadium": score_data["stadium"],
                     }
 
                     record_list.append(record_single_data)
 
-        return jsonify({"data": {"games" : record_list}})
+        return jsonify({"data": {"games": record_list}})
 
     def get_winning_rate(self, data):
-        """ 팀별 승률 계산"""
+        """팀별 승률 계산"""
         winning_rate = 0
         play_count = int(data["win"]) + int(data["draw"]) + int(data["lose"])
 
@@ -106,7 +104,7 @@ class TeamsHandler:
         return str(round(winning_rate * 100))
 
     def put_team(self, data):
-        """ 팀 정보 수정"""
+        """팀 정보 수정"""
         if not data:
             return jsonify({"data": False})
 

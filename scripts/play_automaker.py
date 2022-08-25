@@ -1,21 +1,19 @@
 # -*- coding: utf-8 -*-
 
-import time
 import datetime
+import time
 
+from crontab import CronTab
 from psycopg2 import connect
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-from crontab import CronTab
-
 
 year = time.strftime("%Y")
 month = time.strftime("%m")
 day = time.strftime("%d")
 date = year + month + day  # "20130615"
 
-cron = CronTab(user='root')
-con = connect(dbname="prooya", user="prooya",
-              host="localhost", password="CjsdksgkA77@")
+cron = CronTab(user="root")
+con = connect(dbname="prooya", user="prooya", host="localhost", password="CjsdksgkA77@")
 con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
 TIME_SET = {
@@ -28,7 +26,7 @@ TIME_SET = {
 
 
 def get_dict_all(cols, data):
-    """ 쿼리 Row 생성 """
+    """쿼리 Row 생성"""
     record = []
     for row in data:
         record.append(dict(list(zip(cols, row))))
@@ -37,12 +35,13 @@ def get_dict_all(cols, data):
 
 
 def make_playtime():
-    """ 경기데이터 생성"""
+    """경기데이터 생성"""
     try:
         query = """SELECT id, stadium, starttime
                     FROM scores
-                    WHERE playdate='{0}'"""\
-                    .format(date)
+                    WHERE playdate='{0}'""".format(
+            date
+        )
 
         cur = con.cursor()
         cur.execute(query)
@@ -64,13 +63,13 @@ def make_playtime():
 
 
 def make_scheduler(records):
-    """ 경기 스케쥴러 생성"""
+    """경기 스케쥴러 생성"""
 
     #: 크론제거
     cron.remove_all()
 
     #: 크론 생성기(매일 1시)
-    maker_cmd = '/usr/bin/python /home/prooya/prooya/scripts/play_automaker.py >> /var/log/playschedule.log 2>&1'
+    maker_cmd = "/usr/bin/python /home/prooya/prooya/scripts/play_automaker.py >> /var/log/playschedule.log 2>&1"
     job_maker = cron.new(maker_cmd)
     job_maker.minute.on(0)
     job_maker.hour.on(1)
@@ -84,8 +83,10 @@ def make_scheduler(records):
             hour = str(start_time)[0:2]
             minute = str(start_time)[2:4]
 
-            cavalry_cmd = '/usr/bin/python /home/prooya/prooya/scripts/cavalry_score.py %s >> /var/log/playschedule.log 2>1' % (
-                play_id)
+            cavalry_cmd = (
+                "/usr/bin/python /home/prooya/prooya/scripts/cavalry_score.py %s >> /var/log/playschedule.log 2>1"
+                % (play_id)
+            )
 
             job_cavalry = cron.new(cavalry_cmd)
             job_cavalry.minute.on(minute)
@@ -96,7 +97,7 @@ def make_scheduler(records):
         #: 실시간점수 크론(각 경기시작 후 2시간 후)
         upscore_timeset = TIME_SET[str(upscore_standard)].split("|")
         upscore_minute = upscore_timeset[0]
-        score_cmd = '/usr/bin/python /home/prooya/prooya/scripts/realtimescore.py >> /var/log/playresult.log 2>&1'
+        score_cmd = "/usr/bin/python /home/prooya/prooya/scripts/realtimescore.py >> /var/log/playresult.log 2>&1"
         job_score = cron.new(score_cmd)
         job_score.minute.on(59)
         job_score.hour.on(23)

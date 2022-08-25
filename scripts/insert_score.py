@@ -1,11 +1,11 @@
 #!/usr/bin/python
-#-*-coding:utf-8-*-
+# -*-coding:utf-8-*-
 
 import ast
-import json
-import psycopg2
 import datetime
+import json
 
+import psycopg2
 from psycopg2 import connect
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
@@ -19,7 +19,7 @@ team_list = {
     "LG": "lgt",
     "한화": "hhe",
     "삼성": "ssl",
-    "kt": "ktw"
+    "kt": "ktw",
 }
 
 stadium_list = {
@@ -32,7 +32,7 @@ stadium_list = {
     "lgt": "soj",
     "hhe": "dje",
     "ssl": "dgl",
-    "ktw": "sww"
+    "ktw": "sww",
 }
 
 
@@ -71,8 +71,9 @@ def insert_plays(data):
 
             qstadium = stadium_list[qhometeam]
 
-            playlist_query += ("('{0}','{1}','{2}','{3}','{4}','{5}','{6}'),"
-                               .format(qdate, qawayteam, qawayscore, qhometeam, qhomescore, qregdate, qstadium))
+            playlist_query += "('{0}','{1}','{2}','{3}','{4}','{5}','{6}'),".format(
+                qdate, qawayteam, qawayscore, qhometeam, qhomescore, qregdate, qstadium
+            )
 
     #: Database
     con = connect(user="prooya", host="localhost", password="CjsdksgkA77@")
@@ -80,7 +81,9 @@ def insert_plays(data):
 
     query = """INSERT INTO scores
 			   (playdate, awayteam, awayscore, hometeam, homescore, regdate, stadium)
-			   VALUES {0}""".format(playlist_query[:-1])
+			   VALUES {0}""".format(
+        playlist_query[:-1]
+    )
     cur = con.cursor()
     cur.execute(query)
 

@@ -1,19 +1,19 @@
 #!/usr/bin/python3
 # -*-coding:utf-8 -*-
 
-from v1 import *
 from collections import defaultdict
+
+from v1 import *
 
 """ StaticsHanlder(통계정보) """
 
 
 class StaticsHanlder:
-
     def __init__(self):
         pass
 
     def get_statics(self, data):
-        """ 기록정보(Dashboard용 통합 데이터)"""
+        """기록정보(Dashboard용 통합 데이터)"""
         if not data:
             return jsonify({"data": False})
 
@@ -21,24 +21,23 @@ class StaticsHanlder:
         user = {}
 
         # 경기수
-        play_count_all = 0      #: 통산
+        play_count_all = 0  #: 통산
 
         # 승률
-        winning_rate_all = 0        #: 통산
-        winning_rate_season = 0     #: 시즌
+        winning_rate_all = 0  #: 통산
+        winning_rate_season = 0  #: 시즌
 
         # 승무패
-        pt_win_all = 0      #: 승(통산)
-        pt_lose_all = 0     #: 패(통산)
-        pt_draw_all = 0     #: 무(통산)
+        pt_win_all = 0  #: 승(통산)
+        pt_lose_all = 0  #: 패(통산)
+        pt_draw_all = 0  #: 무(통산)
 
         # 최근 5경기
         recents = []
 
         # 팀별통산승률
         team_winning_rate = dict.fromkeys(
-            ["kat", "dsb", "ltg", "ncd", "skw", "nxh", "lgt", "hhe", "ssl", "ktw"],
-            0
+            ["kat", "dsb", "ltg", "ncd", "skw", "nxh", "lgt", "hhe", "ssl", "ktw"], 0
         )
 
         email = data.get("email")
@@ -47,10 +46,7 @@ class StaticsHanlder:
 
         if records:
             # 사용자
-            user = {
-                "user_id" : records[0]["id"],
-                "team" : records[0]["team"]
-            }
+            user = {"user_id": records[0]["id"], "team": records[0]["team"]}
 
             if user:
                 # 사용자 팀별 통산기록(승률)
@@ -70,7 +66,7 @@ class StaticsHanlder:
                         try:
                             win += int(_pa[0])
                             lose += int(_pa[1])
-                            rate = (win / (win+lose)) * 100
+                            rate = (win / (win + lose)) * 100
                         except ZeroDivisionError:
                             rate = 0
                         finally:
@@ -92,15 +88,15 @@ class StaticsHanlder:
         winning_rate_all = pt_win_all / play_count_all
 
         res = {
-            "user" : user,
-            "allStatics" : {
-                "win" : pt_win_all,
-                "lose" : pt_lose_all,
-                "draw" : pt_draw_all,
-                "count" : play_count_all,
-                "rate" : round(winning_rate_all * 100)
+            "user": user,
+            "allStatics": {
+                "win": pt_win_all,
+                "lose": pt_lose_all,
+                "draw": pt_draw_all,
+                "count": play_count_all,
+                "rate": round(winning_rate_all * 100),
             },
-            "teamWinningRate" : team_winning_rate
+            "teamWinningRate": team_winning_rate,
         }
 
         return jsonify({"data": res})

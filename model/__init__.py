@@ -13,7 +13,4 @@ SCORES = "scores"
 RECORDS = "records"
 
 # Team List
-TEAMNAMES = [
-    "kat", "dsb", "ncd", "ltg", "skw",
-    "kwh", "lgt", "hhe", "ssl", "ktw"
-]
+TEAMNAMES = ["kat", "dsb", "ncd", "ltg", "skw", "kwh", "lgt", "hhe", "ssl", "ktw"]

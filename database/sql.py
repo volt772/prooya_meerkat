@@ -2,10 +2,9 @@
 # -*-coding:utf-8 -*-
 
 import psycopg2
-from helper import config
+from helper import config, utils
 from psycopg2 import pool
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-from helper import utils
 
 """ SQLHandler(데이터베이스 처리)
 - postgresql 사용
@@ -15,43 +14,44 @@ from helper import utils
 
 
 class SQLHandler:
-
     def __init__(self):
         self.threaded_postgreSQL_pool = None
         self.connection()
 
     def get_conn(self):
-        """ Connection 요청"""
+        """Connection 요청"""
         ps_connection = self.threaded_postgreSQL_pool.getconn()
         ps_connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-        if(ps_connection):
+        if ps_connection:
             ps_cursor = ps_connection.cursor()
 
         return ps_connection, ps_cursor
 
     def put_conn(self, ps_connection):
-        """ Connection 반환"""
+        """Connection 반환"""
         self.threaded_postgreSQL_pool.putconn(ps_connection)
 
     def destroy(self):
-        """ 모든 Connection 종료"""
-        if (self.threaded_postgreSQL_pool):
+        """모든 Connection 종료"""
+        if self.threaded_postgreSQL_pool:
             self.threaded_postgreSQL_pool.closeall
 
     def connection(self):
-        """ Database 연결 및 ConnectionPool 생성"""
-        _d = config.get_config("postgres_%s" %(utils.get_host()))
+        """Database 연결 및 ConnectionPool 생성"""
+        _d = config.get_config("postgres_%s" % (utils.get_host()))
 
         self.threaded_postgreSQL_pool = psycopg2.pool.ThreadedConnectionPool(
-            1, 1000,
+            1,
+            1000,
             user=_d["db_user"],
             password=_d["db_pass"],
             host=_d["db_host"],
             port=_d["db_port"],
-            database=_d["db_name"])
+            database=_d["db_name"],
+        )
 
     def fetch_one(self, query):
-        """ 쿼리 """
+        """쿼리"""
         ps_connection, ps_cursor = self.get_conn()
         ps_cursor.execute(query)
         _data = ps_cursor.fetchone()
@@ -66,7 +66,7 @@ class SQLHandler:
         return record
 
     def fetch_all(self, query):
-        """ 쿼리 """
+        """쿼리"""
         ps_connection, ps_cursor = self.get_conn()
         ps_cursor.execute(query)
         _data = ps_cursor.fetchall()
@@ -80,7 +80,7 @@ class SQLHandler:
         return records
 
     def execute(self, query):
-        """ 쿼리 """
+        """쿼리"""
         ps_connection, ps_cursor = self.get_conn()
         ps_cursor.execute(query)
         rowcount = ps_cursor.rowcount
@@ -89,7 +89,7 @@ class SQLHandler:
         return rowcount
 
     def get_dict_all(self, cols, data):
-        """ 쿼리 Row 생성 """
+        """쿼리 Row 생성"""
         record = []
         for row in data:
             record.append(dict(list(zip(cols, row))))
@@ -97,7 +97,7 @@ class SQLHandler:
         return record
 
     def get_dict_one(self, cols, data):
-        """ 쿼리 Row 생성 """
+        """쿼리 Row 생성"""
         rows = []
         record = []
         for row in data:
