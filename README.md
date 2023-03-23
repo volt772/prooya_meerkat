@@ -14,12 +14,8 @@
 
 <!-- ABOUT THE PROJECT -->
 ## Prooya Images
-<img src="https://user-images.githubusercontent.com/57861321/226225905-d611b08e-fd90-41a4-9e2d-ee58dd9104b3.png"><br/>
-<img src="https://user-images.githubusercontent.com/57861321/226225934-60f57635-2263-421f-906d-bd94f7ec3be2.png"><br/>
-<img src="https://user-images.githubusercontent.com/57861321/226225928-0c57ca3c-969a-40cc-866f-4564bb1b0891.png"><br/>
-<img src="https://user-images.githubusercontent.com/57861321/226225920-97e2311d-8811-4da5-9d2b-3687fd0af070.png"><br/>
-
-
+<img src="https://user-images.githubusercontent.com/57861321/227073377-115bc8be-ed57-4f94-bdb3-a9492be3dc33.png"><br/>
+<img src="https://user-images.githubusercontent.com/57861321/227073373-3355619c-82f4-423d-9b76-9bd5c2d8e61f.png"><br/>
 
 
 ### Built With
