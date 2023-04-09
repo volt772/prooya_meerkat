@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="https://user-images.githubusercontent.com/57861321/226219943-63cf2f8b-a94a-49cf-93b7-30dfcb18c45f.jpg" alt="Logo" width="300" height="500">
+    <img src="https://github.com/volt772/prooya_meerkat/blob/feature/v2/prooya_server.png"/>
  
   <h3 align="center">Prooya 프로야구 직관러</h3>
 
@@ -20,7 +20,6 @@
 
 ### Built With
 
-#### Android : Kotlin / Jetpacks / Coroutine / Clean Architecture / Firebase
 #### Python : Ubuntu / Flask / Nginx / Gunicorn / PostgreSQL / Redis
 
 <a href="https://developer.android.com/jetpack?hl=ko"><img src="https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=Android&logoColor=FFFFFF"/></a>
