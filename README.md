@@ -13,17 +13,7 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## Prooya Images
-<img src="https://user-images.githubusercontent.com/57861321/227073377-115bc8be-ed57-4f94-bdb3-a9492be3dc33.png"><br/>
-<img src="https://user-images.githubusercontent.com/57861321/227073373-3355619c-82f4-423d-9b76-9bd5c2d8e61f.png"><br/>
-
-
-### Built With
-
-#### Python : Ubuntu / Flask / Nginx / Gunicorn / PostgreSQL / Redis
-
-<a href="https://developer.android.com/jetpack?hl=ko"><img src="https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=Android&logoColor=FFFFFF"/></a>
-<a href="https://kotlinlang.org/"><img src="https://img.shields.io/badge/Kotlin-7F52FF?style=flat-square&logo=Kotlin&logoColor=FFFFFF"/></a>
+## Built With
 <a href="https://firebase.google.com/?hl=ko"><img src="https://img.shields.io/badge/firebase-FFCA28?style=flat-square&logo=firebase&logoColor=FFFFFF"/></a>
 <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=FFFFFF"/></a>
 <a href="https://flask-docs-kr.readthedocs.io/ko/latest/index.html"><img src="https://img.shields.io/badge/Flask-000000?style=flat-square&logo=Flask&logoColor=FFFFFF"/></a>
@@ -31,6 +21,7 @@
 <a href="https://redis.io/"><img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=Redis&logoColor=FFFFFF"/></a>
 <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=PostgreSQL&logoColor=FFFFFF"/></a>
 <a href="https://www.nginx.com/"><img src="https://img.shields.io/badge/NGINX-009639?style=flat-square&logo=NGINX&logoColor=FFFFFF"/></a>
+<a href="https://www.gunicorn.org/"><img src="https://img.shields.io/badge/gunicorn-499848?style=flat-square&logo=gunicorn&logoColor=FFFFFF"/></a>
 
 <!-- CONTACT -->
 ## Project Detail
